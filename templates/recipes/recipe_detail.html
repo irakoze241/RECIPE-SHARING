@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ recipe.title }} – RecipeShare{% endblock %}
+
+{% block content %}
+
+<!-- ===== DETAIL HERO ===== -->
+<section class="recipe-detail-hero">
+  <div class="container">
+    <div class="row align-items-center gy-4">
+      <div class="col-lg-6 order-lg-2">
+        {% if recipe.image %}
+          <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="recipe-detail-img" />
+        {% else %}
+          <div class="recipe-detail-no-img">🍽️</div>
+        {% endif %}
+      </div>
+
+      <div class="col-lg-6 order-lg-1">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb" style="background:transparent;padding:0;margin:0;">
+            <li class="breadcrumb-item">
+              <a href="{% url 'home' %}" style="color:rgba(255,255,255,.6);font-size:.85rem;">Home</a>
+            </li>
+            <li class="breadcrumb-item active" style="color:rgba(255,255,255,.4);font-size:.85rem;">{{ recipe.title|truncatechars:30 }}</li>
+          </ol>
+        </nav>
+
+        <h1 style="color:#fff;font-size:clamp(1.6rem,4vw,2.4rem);line-height:1.2;margin-bottom:1rem;">
+          {{ recipe.title }}
+        </h1>
+
+        <p style="color:rgba(255,255,255,.8);font-size:1rem;margin-bottom:1.5rem;line-height:1.6;">
+          {{ recipe.description }}
+        </p>
+
+        <!-- Meta Badges -->
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <span class="badge-time">
+            <i class="bi bi-clock"></i> {{ recipe.cooking_time }} minutes
+          </span>
+          <span class="badge-time">
+            <i class="bi bi-calendar3"></i> {{ recipe.created_at|date:"M d, Y" }}
+          </span>
+        </div>
+
+        <!-- Author -->
+        <div class="d-flex align-items-center gap-2 mb-4">
+          <div class="author-avatar" style="width:36px;height:36px;font-size:.85rem;">
+            {{ recipe.author.username|first|upper }}
+          </div>
+          <div>
+            <div style="color:rgba(255,255,255,.5);font-size:.75rem;">Recipe by</div>
+            <div style="color:#fff;font-weight:600;font-size:.9rem;">{{ recipe.author.username }}</div>
+          </div>
+        </div>
+
+        <!-- Author Actions -->
+        {% if user == recipe.author %}
+        <div class="d-flex gap-2 flex-wrap">
+          <a href="{% url 'recipe-update' recipe.pk %}" class="btn-primary-custom">
+            <i class="bi bi-pencil"></i> Edit Recipe
+          </a>
+          <a href="{% url 'recipe-delete' recipe.pk %}" class="btn-outline-custom" style="border-color:rgba(255,100,100,.5);color:#ff9999;">
+            <i class="bi bi-trash"></i> Delete
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RECIPE CONTENT ===== -->
+<section class="section-py">
+  <div class="container">
+    <div class="row gy-4">
+
+      <!-- Ingredients -->
+      <div class="col-lg-4">
+        <div class="detail-section">
+          <h2 class="detail-section-title">
+            <span>🥗</span> Ingredients
+          </h2>
+          {% for ingredient in recipe.get_ingredients_list %}
+          <div class="ingredient-item">
+            <div class="ingredient-bullet"></div>
+            <span>{{ ingredient }}</span>
+          </div>
+          {% empty %}
+          <p class="text-muted">No ingredients listed.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Instructions -->
+      <div class="col-lg-8">
+        <div class="detail-section">
+          <h2 class="detail-section-title">
+            <span>👨‍🍳</span> Instructions
+          </h2>
+          {% for step in recipe.get_instructions_list %}
+          <div class="instruction-step">
+            <div class="step-number">{{ forloop.counter }}</div>
+            <span>{{ step }}</span>
+          </div>
+          {% empty %}
+          <p class="text-muted">No instructions provided.</p>
+          {% endfor %}
+        </div>
+
+        <!-- Back button -->
+        <div class="mt-3">
+          <a href="{% url 'home' %}" class="btn-outline-custom">
+            <i class="bi bi-arrow-left"></i> Back to Recipes
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

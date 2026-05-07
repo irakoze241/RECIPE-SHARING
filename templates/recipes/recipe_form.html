@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if action == 'Create' %}Add New Recipe{% else %}Edit {{ recipe.title }}{% endif %} – RecipeShare{% endblock %}
+
+{% block content %}
+<section class="section-py">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+
+        <!-- Page Header -->
+        <div class="mb-4">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+              {% if action == 'Update' %}
+              <li class="breadcrumb-item">
+                <a href="{{ recipe.get_absolute_url }}">{{ recipe.title|truncatechars:25 }}</a>
+              </li>
+              {% endif %}
+              <li class="breadcrumb-item active">{{ action }} Recipe</li>
+            </ol>
+          </nav>
+          <h1 class="mb-1" style="font-size:1.8rem;">
+            {% if action == 'Create' %}
+              🍳 Share a New Recipe
+            {% else %}
+              ✏️ Edit Recipe
+            {% endif %}
+          </h1>
+          <p class="text-muted">Fill in the details below. Fields marked <span class="text-danger">*</span> are required.</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="form-card">
+          <form method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+
+            <!-- Non-field errors -->
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+              {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Title -->
+            <div class="mb-4">
+              <label for="{{ form.title.id_for_label }}" class="form-label">
+                Recipe Title <span class="text-danger">*</span>
+              </label>
+              {{ form.title }}
+              {% if form.title.errors %}
+              <div class="text-danger mt-1" style="font-size:.8rem;">{{ form.title.errors|join:", " }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Description -->
+            <div class="mb-4">
+              <label for="{{ form.description.id_for_label }}" class="form-label">
+                Short Description <span class="text-danger">*</span>
+              </label>
+              {{ form.description }}
+              {% if form.description.errors %}
+              <div class="text-danger mt-1" style="font-size:.8rem;">{{ form.description.errors|join:", " }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Cooking Time -->
+            <div class="mb-4">
+              <label for="{{ form.cooking_time.id_for_label }}" class="form-label">
+                Cooking Time (minutes) <span class="text-danger">*</span>
+              </label>
+              {{ form.cooking_time }}
+              {% if form.cooking_time.errors %}
+              <div class="text-danger mt-1" style="font-size:.8rem;">{{ form.cooking_time.errors|join:", " }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Image Upload -->
+            <div class="mb-4">
+              <label for="{{ form.image.id_for_label }}" class="form-label">
+                Recipe Photo
+                <span class="text-muted fw-normal">(optional)</span>
+              </label>
+
+              {% if action == 'Update' and recipe.image %}
+              <div class="mb-2">
+                <img src="{{ recipe.image.url }}" alt="Current image" style="max-height:160px;border-radius:8px;border:1px solid var(--border);" />
+                <p class="form-text mt-1">Current image. Upload a new one to replace it.</p>
+              </div>
+              {% endif %}
+
+              {{ form.image }}
+
+              <!-- Preview (shown after JS picks a file) -->
+              <div style="display:none;margin-top:.75rem;" id="preview-wrap">
+                <img id="image-preview" src="#" alt="Preview" style="max-height:180px;border-radius:8px;border:1px solid var(--border);" />
+              </div>
+
+              {% if form.image.errors %}
+              <div class="text-danger mt-1" style="font-size:.8rem;">{{ form.image.errors|join:", " }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Ingredients -->
+            <div class="mb-4">
+              <label for="{{ form.ingredients.id_for_label }}" class="form-label">
+                Ingredients <span class="text-danger">*</span>
+              </label>
+              {{ form.ingredients }}
+              <div class="form-text">{{ form.ingredients.help_text }}</div>
+              {% if form.ingredients.errors %}
+              <div class="text-danger mt-1" style="font-size:.8rem;">{{ form.ingredients.errors|join:", " }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Instructions -->
+            <div class="mb-4">
+              <label for="{{ form.instructions.id_for_label }}" class="form-label">
+                Instructions <span class="text-danger">*</span>
+              </label>
+              {{ form.instructions }}
+              <div class="form-text">{{ form.instructions.help_text }}</div>
+              {% if form.instructions.errors %}
+              <div class="text-danger mt-1" style="font-size:.8rem;">{{ form.instructions.errors|join:", " }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Submit -->
+            <div class="d-flex gap-3 justify-content-end pt-2 border-top">
+              <a href="{% if action == 'Update' %}{{ recipe.get_absolute_url }}{% else %}{% url 'home' %}{% endif %}"
+                 class="btn-outline-custom">
+                Cancel
+              </a>
+              <button type="submit" class="btn-primary-custom">
+                <i class="bi bi-{% if action == 'Create' %}plus-circle{% else %}check-circle{% endif %}"></i>
+                {{ action }} Recipe
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
