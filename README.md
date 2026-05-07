@@ -1,26 +1,26 @@
-# 🍽️ RecipeShare — A Django Recipe Sharing Platform
+#  RecipeShare — A Recipe Sharing Platform
 
 A clean, full-stack web application built with Python and Django that allows users to create, upload, and browse recipes with images. Designed as a student portfolio project with professional structure and real functionality.
 
 ---
 
-## 📸 Features
+# Features
 
 | Feature | Description |
 |---|---|
-| 🔐 **User Authentication** | Register, log in, and log out using Django's built-in auth |
-| 📝 **Create Recipes** | Upload recipes with title, description, ingredients, instructions, and a photo |
-| 🖼️ **Image Upload** | Store and display recipe images via Django's media system |
-| 🔍 **Search** | Search recipes by title or description keyword |
-| 📖 **Recipe Detail** | Full detail page with ingredients and numbered instructions |
-| ✏️ **Edit / Delete** | Authors can edit or delete their own recipes |
-| 👤 **My Recipes Dashboard** | Each user has a personal dashboard to manage their recipes |
-| 🛡️ **Security** | CSRF protection, login-required views, author-only edit/delete |
-| 📱 **Responsive Design** | Mobile-friendly Bootstrap 5 layout |
+|  **User Authentication** | Register, log in, and log out using Django's built-in auth |
+|  **Create Recipes** | Upload recipes with title, description, ingredients, instructions, and a photo |
+|  **Image Upload** | Store and display recipe images via Django's media system |
+|  **Search** | Search recipes by title or description keyword |
+|  **Recipe Detail** | Full detail page with ingredients and numbered instructions |
+|  **Edit / Delete** | Authors can edit or delete their own recipes |
+|  **My Recipes Dashboard** | Each user has a personal dashboard to manage their recipes |
+|  **Security** | CSRF protection, login-required views, author-only edit/delete |
+|  **Responsive Design** | Mobile-friendly Bootstrap 5 layout |
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Backend:** Python 3.x, Django 6
 - **Frontend:** HTML5, CSS3, JavaScript, Bootstrap 5
@@ -30,7 +30,7 @@ A clean, full-stack web application built with Python and Django that allows use
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 RECIPE SHARING/
@@ -135,7 +135,7 @@ Visit **http://127.0.0.1:8000** in your browser.
 
 ---
 
-## 🔑 Demo Credentials
+##  Demo Credentials
 
 | Field | Value |
 |---|---|
@@ -145,7 +145,7 @@ Visit **http://127.0.0.1:8000** in your browser.
 
 ---
 
-## 📄 Pages & URLs
+##  Pages & URLs
 
 | URL | Page |
 |---|---|
@@ -162,7 +162,7 @@ Visit **http://127.0.0.1:8000** in your browser.
 
 ---
 
-## 🔒 Security Notes
+##  Security Notes
 
 - CSRF tokens are used on all forms
 - Only authenticated users can create recipes
@@ -172,7 +172,7 @@ Visit **http://127.0.0.1:8000** in your browser.
 
 ---
 
-## 📌 Notes
+##  Notes
 
 - Recipe images are stored in `/media/recipe_images/`
 - The SQLite database (`db.sqlite3`) is created automatically on first migration
